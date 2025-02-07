@@ -175,6 +175,7 @@ public class MainTableHeaderContextMenu extends ContextMenu {
         String rankQualifier = "ranking";
         String readStatusQualifier = "readstatus";
         String priorityQualifier = "priority";
+        String progressQualifier = "progress";
 
         // Create the MainTableColumn Models from qualifiers + types.
         List<MainTableColumnModel> commonColumns = new ArrayList<>();
@@ -190,6 +191,7 @@ public class MainTableHeaderContextMenu extends ContextMenu {
         commonColumns.add(new MainTableColumnModel(MainTableColumnModel.Type.SPECIALFIELD, rankQualifier));
         commonColumns.add(new MainTableColumnModel(MainTableColumnModel.Type.SPECIALFIELD, readStatusQualifier));
         commonColumns.add(new MainTableColumnModel(MainTableColumnModel.Type.SPECIALFIELD, priorityQualifier));
+        commonColumns.add(new MainTableColumnModel(MainTableColumnModel.Type.SPECIALFIELD, progressQualifier));
 
         // Create the Table Columns from the models using factory methods.
         List<TableColumn<BibEntryTableViewModel, ?>> commonTableColumns = new ArrayList<>();

@@ -143,7 +143,8 @@ public enum StandardField implements Field {
 
     public static final Set<Field> AUTOMATIC_FIELDS = Set.of(OWNER, TIMESTAMP, CREATIONDATE, MODIFICATIONDATE);
 
-    private static final Map<String, StandardField> NAME_TO_STANDARD_FIELD = new HashMap<>();
+    public static final Map<String, StandardField> NAME_TO_STANDARD_FIELD = new HashMap<>();
+    public static final Map<String, StandardField> REQUIRED_PROGRESS_FIELD = new HashMap<>();
 
     private final String name;
     private final String displayName;
@@ -153,6 +154,14 @@ public enum StandardField implements Field {
         for (StandardField field : StandardField.values()) {
             NAME_TO_STANDARD_FIELD.put(field.getName().toLowerCase(Locale.ROOT), field);
         }
+
+        REQUIRED_PROGRESS_FIELD.put(AUTHOR.getName().toLowerCase(Locale.ROOT), AUTHOR);
+        REQUIRED_PROGRESS_FIELD.put(TITLE.getName().toLowerCase(Locale.ROOT), TITLE);
+        REQUIRED_PROGRESS_FIELD.put(JOURNAL.getName().toLowerCase(Locale.ROOT), JOURNAL);
+        REQUIRED_PROGRESS_FIELD.put(YEAR.getName().toLowerCase(Locale.ROOT), YEAR);
+        REQUIRED_PROGRESS_FIELD.put(DOI.getName().toLowerCase(Locale.ROOT), DOI);
+        // REQUIRED_PROGRESS_FIELD.put(KEY.getName().toLowerCase(Locale.ROOT), KEY);
+        // REQUIRED_PROGRESS_FIELD.put(KEYWORDS.getName().toLowerCase(Locale.ROOT), KEYWORDS);
     }
 
     StandardField(String name) {

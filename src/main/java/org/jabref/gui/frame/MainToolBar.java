@@ -17,6 +17,7 @@ import org.jabref.gui.ClipBoardManager;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.LibraryTabContainer;
 import org.jabref.gui.StateManager;
+import org.jabref.gui.WorkspacePreferences;
 import org.jabref.gui.actions.ActionFactory;
 import org.jabref.gui.actions.ActionHelper;
 import org.jabref.gui.actions.StandardActions;
@@ -34,6 +35,7 @@ import org.jabref.gui.plaincitationparser.PlainCitationParserAction;
 import org.jabref.gui.preferences.GuiPreferences;
 import org.jabref.gui.push.PushToApplicationCommand;
 import org.jabref.gui.search.GlobalSearchBar;
+import org.jabref.gui.theme.Theme;
 import org.jabref.gui.theme.ThemeManager;
 import org.jabref.gui.undo.CountingUndoManager;
 import org.jabref.gui.undo.RedoAction;
@@ -146,6 +148,8 @@ public class MainToolBar extends ToolBar {
 
                 new HBox(
                         createTaskIndicator()),
+                new HBox(
+                        ToggleThemeButton()),
 
                 new Separator(Orientation.VERTICAL),
 
@@ -159,6 +163,34 @@ public class MainToolBar extends ToolBar {
         HBox.setHgrow(rightSpacer, Priority.SOMETIMES);
 
         getStyleClass().add("mainToolbar");
+    }
+
+    private Button ToggleThemeButton() {
+        // Create a toggle button
+        Button themeToggleButton = new Button("☀");
+        themeToggleButton.setStyle("-fx-font-weight: bold;");
+
+        // Set an initial icon or text for the button, optionally customizable
+        // themeToggleButton.setGraphic(IconTheme.JabRefIcons.TOGGLE_THEME.getGraphicNode());
+        // themeToggleButton.getStyleClass().setAll("icon-button");
+
+        // Add a tooltip for clarity
+        themeToggleButton.setTooltip(new Tooltip(Localization.lang("Toggle between light and dark theme")));
+
+        // Bind the button event to toggle themes
+        themeToggleButton.setOnAction(event -> {
+            WorkspacePreferences workspacePreferences = preferences.getWorkspacePreferences();
+            Theme currentTheme = workspacePreferences.getTheme(); // Retrieve the current theme from preferences
+            Theme newTheme;
+            if (currentTheme.equals(Theme.light())) {
+                newTheme = Theme.dark();
+            } else {
+                newTheme = Theme.light();
+            }
+            // Apply the new theme using ThemeManager
+            workspacePreferences.setTheme(newTheme);
+        });
+        return themeToggleButton;
     }
 
     Button createNewEntryFromIdButton() {

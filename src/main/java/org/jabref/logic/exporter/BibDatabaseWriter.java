@@ -8,13 +8,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jabref.logic.bibtex.FieldPreferences;
 import org.jabref.logic.bibtex.comparator.BibtexStringComparator;
@@ -37,7 +40,10 @@ import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.BibEntryType;
 import org.jabref.model.entry.BibEntryTypesManager;
 import org.jabref.model.entry.BibtexString;
+import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.InternalField;
+import org.jabref.model.entry.field.StandardField;
+import org.jabref.model.entry.field.UnknownField;
 import org.jabref.model.metadata.MetaData;
 import org.jabref.model.metadata.SaveOrder;
 import org.jabref.model.metadata.SelfContainedSaveOrder;
@@ -158,8 +164,28 @@ public abstract class BibDatabaseWriter {
                                                 .stream()
                                                 .filter(entry -> !entry.isEmpty())
                                                 .toList();
+
+        // Add progress field to each entry
+        for (BibEntry entry : entries) {
+            addProgressField(entry);
+        }
+
         savePartOfDatabase(bibDatabaseContext, entries);
     }
+
+   private void addProgressField(BibEntry entry) {
+       Set<String> requiredFields = entry.getFields().stream().map(Field::getName)
+                                         .filter(field -> StandardField.REQUIRED_PROGRESS_FIELD.containsKey(field.toLowerCase(Locale.ROOT)))
+                                         .collect(Collectors.toSet());
+
+       int progress = (int) ((double) requiredFields.size() / StandardField.REQUIRED_PROGRESS_FIELD.size() * 100);
+
+       // Create an UnknownField object for "progress"
+       UnknownField progressField = new UnknownField("progress");
+
+       // Add the progress field to the entry
+       entry.setField(progressField, progress + "%");
+   }
 
     /**
      * Saves the database, including only the specified entries.
