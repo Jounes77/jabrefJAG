@@ -161,7 +161,7 @@ public enum StandardField implements Field {
         REQUIRED_PROGRESS_FIELD.put(YEAR.getName().toLowerCase(Locale.ROOT), YEAR);
         REQUIRED_PROGRESS_FIELD.put(DOI.getName().toLowerCase(Locale.ROOT), DOI);
         // REQUIRED_PROGRESS_FIELD.put(KEY.getName().toLowerCase(Locale.ROOT), KEY);
-        // REQUIRED_PROGRESS_FIELD.put(KEYWORDS.getName().toLowerCase(Locale.ROOT), KEYWORDS);
+        REQUIRED_PROGRESS_FIELD.put(KEYWORDS.getName().toLowerCase(Locale.ROOT), KEYWORDS);
     }
 
     StandardField(String name) {
